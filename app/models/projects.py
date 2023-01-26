@@ -36,6 +36,49 @@ class Stage(models.Model):
         return self.name
 
 
+class Angel(models.Model):
+
+    class Meta:
+        db_table = "angel"
+        verbose_name = "Anioły"
+        verbose_name_plural = "Anioły"
+
+    name = models.CharField(
+        max_length=250,
+        verbose_name="Nazwa",
+        help_text="Nazwa zlecenia, Anioły",
+        unique=True
+    )
+    description = models.TextField(
+        blank=True,
+        verbose_name="Opis",
+        help_text="Szczegółowy opis zamówienia",
+    )
+    email = models.EmailField(
+        verbose_name="adres email",
+        help_text="Adres email",
+        blank=True,
+        null=True
+    )
+    phone = models.CharField(
+        verbose_name="nr telefonu",
+        help_text="Kontaktowy nr telefonu w formacie 123456789",
+        validators=[RegexValidator(regex=r'^\d{9,15}$')],
+        max_length=9,
+        blank=True,
+        null=True
+    )
+    deadline_angel = models.DateField(
+        verbose_name="Deadline anioły",
+        help_text="Deadline anioły",
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return self.name
+
+
 class Order(models.Model):
 
     class Meta:
@@ -107,10 +150,13 @@ class Order(models.Model):
         default=False,
         help_text="Ukończone zaproszenia",
     )
-    angels_extras = models.BooleanField(
-        verbose_name="Anioły",
-        default=False,
-        help_text="Anioły",
+    angels_extras = models.ForeignKey(
+        Angel,
+        on_delete=models.SET_NULL,
+        verbose_name="Angel",
+        help_text="Zlecenie na anioły",
+        blank=True,
+        null=True
     )
     deadline_extras = models.DateField(
         verbose_name="Deadline dodatki",

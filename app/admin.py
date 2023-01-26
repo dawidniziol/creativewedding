@@ -3,6 +3,7 @@ from django.contrib import admin
 from app.models.projects import Stage
 from app.models.projects import Order
 from app.models.projects import Offers
+from app.models.projects import Angel
 
 
 @admin.register(Stage)
@@ -25,6 +26,12 @@ class OrderAdmin(admin.ModelAdmin):
                    'completed_extras',
                    'stage', ]
 
+
 @admin.register(Offers)
 class OfferAdmin(admin.ModelAdmin):
     list_display = ['name', 'samples', ]
+
+
+@admin.register(Angel)
+class OfferAdmin(admin.ModelAdmin):
+    list_display = ['name', 'deadline_angel']
